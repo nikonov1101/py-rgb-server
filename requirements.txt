@@ -1,7 +1,7 @@
-Flask==0.10.1
-Flask-SQLAlchemy==2.1
+Flask==0.11
 Jinja2==2.8
 MarkupSafe==0.23
-SQLAlchemy==1.0.12
-Werkzeug==0.11.5
+Werkzeug==0.11.10
+click==6.6
 itsdangerous==0.24
+pyserial==3.1
