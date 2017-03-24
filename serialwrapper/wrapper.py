@@ -122,4 +122,34 @@ class MSerial():
                 'red': self.r_val,
                 'green': self.g_val,
                 'blue': self.b_val,
-            }
+                }
+
+
+class FakeSerial():
+    def __init__(self, device='/dev/ttyUSB0'):
+        self.r_val = 0
+        self.g_val = 0
+        self.b_val = 0
+        print('[DEBUG] init fake serial device at {}'.format(device))
+
+    def connect(self):
+        print('[DEBUG] connect to fake device')
+
+    def cmd(self, cmd):
+        print('[DEBUG] exec command "{}"'.format(cmd))
+
+    def batch_cmd(self, commands):
+        print('[DEBUG] exec batch "{}"'.format(commands))
+
+    def set_rgb(self, r=0, g=0, b=0):
+        print('[DEBUG] set RGB to r={}, g={}, b={}'.format(r, g, b))
+        self.r_val = r
+        self.g_val = g
+        self.b_val = b
+
+    def get_rgb(self):
+        return {
+            'red': self.r_val,
+            'green': self.g_val,
+            'blue': self.b_val,
+        }

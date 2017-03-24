@@ -2,7 +2,8 @@
  * Created by alex on 29/06/16.
  */
 ;(function () {
-    var $btn = $('#send');
+    var $updateBtn = $('#send');
+    var $resetBtn = $('#reset');
 
     var $red = $('#red');
     var $red_val = $('#red_val');
@@ -28,17 +29,15 @@
         $blue_val.text($blue.val());
     });
 
-    $btn.on('click', function () {
-        var changeUrl = '/set?' + $.param(grabRgb());
-        $.ajax({
-            'url': changeUrl,
-            'success': function (data) {
-                saveState(data);
-            }
-        })
+    $updateBtn.on('click', function () {
+        setDeviceState(grabValues());
     });
 
-    function grabRgb() {
+    $resetBtn.on('click', function(){
+        resetDeviceState();
+    })
+
+    function grabValues() {
         return {
             'r': $red.val(),
             'g': $green.val(),
@@ -46,7 +45,7 @@
         }
     }
 
-    function saveState(s) {
+    function setViewState(s) {
         var c = s['colors'];
 
         $red.val(c['red']).change();
@@ -58,7 +57,26 @@
         $.ajax({
             'url': '/get',
             'success': function (data) {
-                saveState(data);
+                setViewState(data);
+            }
+        })
+    }
+
+    function setDeviceState(s) {
+        var url = '/set?' + $.param(s);
+        callAjax(url);
+    }
+
+    function resetDeviceState() {
+        var url = '/set?' + $.param({'r': '0', 'g': '0', 'b': 0})
+        callAjax(url);
+    }
+
+    function callAjax(url) {
+        $.ajax({
+            'url': url,
+            'success': function (data) {
+                setViewState(data);
             }
         })
     }
