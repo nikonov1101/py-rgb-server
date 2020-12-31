@@ -3,6 +3,6 @@
 """
 
 from app import app
-import config
 
-app.run(host=config.LISTEN_ADDR, port=config.LISTEN_PORT, debug=config.DEBUG)
+
+app.run(host="0.0.0.0", port=8082, debug=True)

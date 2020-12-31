@@ -127,10 +127,11 @@ class MSerial():
 
 class FakeSerial():
     def __init__(self, device='/dev/ttyUSB0'):
+        print('[DEBUG] init fake serial device at {}'.format(device))
         self.r_val = 0
         self.g_val = 0
         self.b_val = 0
-        print('[DEBUG] init fake serial device at {}'.format(device))
+        self.prev_state = (0, 0, 0)
 
     def connect(self):
         print('[DEBUG] connect to fake device')
@@ -143,6 +144,9 @@ class FakeSerial():
 
     def set_rgb(self, r=0, g=0, b=0):
         print('[DEBUG] set RGB to r={}, g={}, b={}'.format(r, g, b))
+        if not any([int(r), int(g), int(b)]):
+            self._push_state()
+
         self.r_val = r
         self.g_val = g
         self.b_val = b
@@ -153,3 +157,11 @@ class FakeSerial():
             'green': self.g_val,
             'blue': self.b_val,
         }
+
+    def _pop_state(self):
+        print('[DEBUG] pop state')
+        self.set_rgb(**self.prev_state)
+
+    def _push_state(self):
+        print('[DEBUG] push state')
+        self.prev_state = (self.r_val, self.g_val, self.b_val)
